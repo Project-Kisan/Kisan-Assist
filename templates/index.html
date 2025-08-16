@@ -25,17 +25,6 @@
         <!-- Header -->
         <header class="kisan-header">
             <div class="container">
-                <div class="row align-items-center py-3">
-                    <div class="col-6">
-                        <div class="time-display">12:00</div>
-                    </div>
-                    <div class="col-6 text-end">
-                        <div class="status-icons">
-                            <i data-feather="wifi" class="status-icon"></i>
-                            <i data-feather="battery" class="status-icon"></i>
-                        </div>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-12 text-center">
                         <h1 class="app-title">Project Kisan</h1>
@@ -137,19 +126,6 @@
         // Initialize Feather Icons
         feather.replace();
         
-        // Update time display
-        function updateTime() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('en-US', { 
-                hour: '2-digit', 
-                minute: '2-digit',
-                hour12: false 
-            });
-            document.querySelector('.time-display').textContent = timeString;
-        }
-        
-        updateTime();
-        setInterval(updateTime, 60000); // Update every minute
         
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', function() {
