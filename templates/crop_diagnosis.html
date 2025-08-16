@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Diagnosis - Project Kisan</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container-fluid p-0">
+        <!-- Header -->
+        <header class="kisan-header">
+            <div class="container">
+                <div class="row align-items-center py-3">
+                    <div class="col-2">
+                        <button class="btn-back" onclick="window.location.href='{{ url_for('index') }}'">
+                            <i data-feather="arrow-left"></i>
+                        </button>
+                    </div>
+                    <div class="col-8 text-center">
+                        <h2 class="page-title">Crop Diagnosis</h2>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container mt-4">
+            <!-- Upload Section -->
+            <div class="section-card mb-4">
+                <div class="upload-section">
+                    <div class="upload-area-large" id="uploadArea">
+                        <input type="file" id="cropImageInput" accept="image/*" style="display: none;">
+                        <div class="upload-content">
+                            <i data-feather="camera" class="upload-icon-large"></i>
+                            <h4>Upload Crop Image</h4>
+                            <p>Take a clear photo of the affected crop for diagnosis</p>
+                            <button class="btn btn-kisan" onclick="document.getElementById('cropImageInput').click()">
+                                Choose Image
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Image Preview -->
+                    <div id="imagePreview" class="image-preview" style="display: none;">
+                        <img id="previewImg" src="" alt="Crop Image">
+                        <button class="btn btn-kisan mt-3" id="diagnoseBtn">
+                            <i data-feather="search"></i>
+                            Diagnose Crop
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="section-card text-center" style="display: none;">
+                <div class="spinner-border text-success" role="status">
+                    <span class="visually-hidden">Analyzing...</span>
+                </div>
+                <p class="mt-3">Analyzing your crop image...</p>
+            </div>
+
+            <!-- Results Section -->
+            <div id="resultsSection" class="section-card" style="display: none;">
+                <h3 class="section-title">Diagnosis Results</h3>
+                
+                <div class="diagnosis-result">
+                    <div class="result-header">
+                        <h4 id="diseaseName"></h4>
+                        <span id="confidenceScore" class="confidence-badge"></span>
+                    </div>
+                    
+                    <div class="severity-indicator">
+                        <span>Severity: </span>
+                        <span id="severityLevel" class="severity-badge"></span>
+                    </div>
+                    
+                    <div class="remedy-section mt-3">
+                        <h5><i data-feather="heart"></i> Recommended Treatment</h5>
+                        <p id="remedyText"></p>
+                    </div>
+                    
+                    <div class="action-buttons mt-4">
+                        <button class="btn btn-outline-success" onclick="shareResults()">
+                            <i data-feather="share-2"></i>
+                            Share Results
+                        </button>
+                        <button class="btn btn-kisan" onclick="resetDiagnosis()">
+                            <i data-feather="refresh-cw"></i>
+                            New Diagnosis
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips Section -->
+            <div class="section-card mb-4">
+                <h3 class="section-title">Photography Tips</h3>
+                <div class="tips-grid">
+                    <div class="tip-item">
+                        <i data-feather="sun"></i>
+                        <span>Use natural lighting</span>
+                    </div>
+                    <div class="tip-item">
+                        <i data-feather="focus"></i>
+                        <span>Focus on affected area</span>
+                    </div>
+                    <div class="tip-item">
+                        <i data-feather="zoom-in"></i>
+                        <span>Keep camera steady</span>
+                    </div>
+                    <div class="tip-item">
+                        <i data-feather="target"></i>
+                        <span>Include healthy parts too</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-item" onclick="window.location.href='{{ url_for('index') }}'">
+                <i data-feather="home"></i>
+            </div>
+            <div class="nav-item" onclick="window.location.href='{{ url_for('market_prices') }}'">
+                <i data-feather="bar-chart-2"></i>
+            </div>
+            <div class="nav-item" onclick="window.location.href='{{ url_for('voice_query') }}'">
+                <i data-feather="message-circle"></i>
+            </div>
+            <div class="nav-item" onclick="window.location.href='{{ url_for('schemes') }}'">
+                <i data-feather="user"></i>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+        
+        // File upload handling
+        document.getElementById('cropImageInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('previewImg').src = e.target.result;
+                    document.getElementById('uploadArea').style.display = 'none';
+                    document.getElementById('imagePreview').style.display = 'block';
+                    feather.replace();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Diagnose button click
+        document.getElementById('diagnoseBtn').addEventListener('click', function() {
+            const fileInput = document.getElementById('cropImageInput');
+            if (fileInput.files.length > 0) {
+                uploadAndDiagnose(fileInput.files[0]);
+            }
+        });
+        
+        function uploadAndDiagnose(file) {
+            const formData = new FormData();
+            formData.append('crop_image', file);
+            
+            // Show loading state
+            document.getElementById('imagePreview').style.display = 'none';
+            document.getElementById('loadingState').style.display = 'block';
+            
+            fetch('/api/upload_crop', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loadingState').style.display = 'none';
+                
+                if (data.status === 'success') {
+                    displayResults(data);
+                } else {
+                    alert('Error: ' + data.message);
+                    resetDiagnosis();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('loadingState').style.display = 'none';
+                alert('An error occurred while processing the image.');
+                resetDiagnosis();
+            });
+        }
+        
+        function displayResults(data) {
+            document.getElementById('diseaseName').textContent = data.disease;
+            document.getElementById('confidenceScore').textContent = Math.round(data.confidence * 100) + '%';
+            document.getElementById('severityLevel').textContent = data.severity.toUpperCase();
+            document.getElementById('remedyText').textContent = data.remedy;
+            
+            // Set severity color
+            const severityBadge = document.getElementById('severityLevel');
+            severityBadge.className = 'severity-badge severity-' + data.severity;
+            
+            document.getElementById('resultsSection').style.display = 'block';
+            feather.replace();
+        }
+        
+        function resetDiagnosis() {
+            document.getElementById('cropImageInput').value = '';
+            document.getElementById('uploadArea').style.display = 'block';
+            document.getElementById('imagePreview').style.display = 'none';
+            document.getElementById('resultsSection').style.display = 'none';
+            document.getElementById('loadingState').style.display = 'none';
+            feather.replace();
+        }
+        
+        function shareResults() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Crop Diagnosis Results',
+                    text: 'Check out my crop diagnosis from Project Kisan app',
+                    url: window.location.href
+                });
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                navigator.clipboard.writeText(window.location.href);
+                alert('Results link copied to clipboard!');
+            }
+        }
+    </script>
+</body>
+</html>

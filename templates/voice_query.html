@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask Kisan - Project Kisan</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container-fluid p-0">
+        <!-- Header -->
+        <header class="kisan-header">
+            <div class="container">
+                <div class="row align-items-center py-3">
+                    <div class="col-2">
+                        <button class="btn-back" onclick="window.location.href='{{ url_for('index') }}'">
+                            <i data-feather="arrow-left"></i>
+                        </button>
+                    </div>
+                    <div class="col-8 text-center">
+                        <h2 class="page-title">Ask Kisan</h2>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container mt-4">
+            <!-- Chat Interface -->
+            <div class="section-card mb-4">
+                <div class="chat-container" id="chatContainer">
+                    <div class="welcome-message">
+                        <div class="kisan-avatar">
+                            <i data-feather="user-check"></i>
+                        </div>
+                        <div class="message-bubble bot-message">
+                            <p>Namaste! I'm your digital farming assistant. You can ask me about:</p>
+                            <ul>
+                                <li>Weather and farming conditions</li>
+                                <li>Market prices and trends</li>
+                                <li>Crop disease diagnosis</li>
+                                <li>Government schemes and subsidies</li>
+                                <li>Fertilizer and farming tips</li>
+                            </ul>
+                            <p>Speak your question or type it below!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Voice Input Section -->
+            <div class="section-card mb-4">
+                <div class="voice-section">
+                    <div class="voice-controls">
+                        <button class="voice-btn" id="voiceBtn">
+                            <i data-feather="mic" id="micIcon"></i>
+                        </button>
+                        <p class="voice-status" id="voiceStatus">Tap to speak</p>
+                    </div>
+                    
+                    <!-- Language Selection -->
+                    <div class="language-selector">
+                        <select class="form-select" id="languageSelect">
+                            <option value="en-IN">English</option>
+                            <option value="hi-IN">Hindi (हिंदी)</option>
+                            <option value="ta-IN">Tamil (தமிழ்)</option>
+                            <option value="te-IN">Telugu (తెలుగు)</option>
+                            <option value="kn-IN">Kannada (ಕನ್ನಡ)</option>
+                            <option value="mr-IN">Marathi (मराठी)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Text Input -->
+            <div class="section-card mb-4">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="textInput" 
+                           placeholder="Type your question here..." aria-label="Question">
+                    <button class="btn btn-kisan" type="button" id="sendBtn">
+                        <i data-feather="send"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quick Questions -->
+            <div class="section-card mb-4">
+                <h3 class="section-title">Quick Questions</h3>
+                <div class="quick-questions">
+                    <button class="quick-btn" onclick="askQuickQuestion('What is today weather?')">
+                        <i data-feather="cloud"></i>
+                        Today's Weather
+                    </button>
+                    <button class="quick-btn" onclick="askQuickQuestion('What are current market prices?')">
+                        <i data-feather="trending-up"></i>
+                        Market Prices
+                    </button>
+                    <button class="quick-btn" onclick="askQuickQuestion('Tell me about government schemes')">
+                        <i data-feather="file-text"></i>
+                        Government Schemes
+                    </button>
+                    <button class="quick-btn" onclick="askQuickQuestion('What fertilizer should I use?')">
+                        <i data-feather="droplet"></i>
+                        Fertilizer Tips
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-item" onclick="window.location.href='{{ url_for('index') }}'">
+                <i data-feather="home"></i>
+            </div>
+            <div class="nav-item" onclick="window.location.href='{{ url_for('market_prices') }}'">
+                <i data-feather="bar-chart-2"></i>
+            </div>
+            <div class="nav-item active">
+                <i data-feather="message-circle"></i>
+            </div>
+            <div class="nav-item" onclick="window.location.href='{{ url_for('schemes') }}'">
+                <i data-feather="user"></i>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/voice.js') }}"></script>
+    
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+        
+        // Initialize voice functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeVoiceInterface();
+            
+            // Text input send button
+            document.getElementById('sendBtn').addEventListener('click', function() {
+                const textInput = document.getElementById('textInput');
+                const question = textInput.value.trim();
+                if (question) {
+                    addUserMessage(question);
+                    processQuery(question);
+                    textInput.value = '';
+                }
+            });
+            
+            // Enter key for text input
+            document.getElementById('textInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('sendBtn').click();
+                }
+            });
+        });
+        
+        function addUserMessage(message) {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'user-message-container';
+            messageDiv.innerHTML = `
+                <div class="message-bubble user-message">
+                    <p>${message}</p>
+                </div>
+                <div class="user-avatar">
+                    <i data-feather="user"></i>
+                </div>
+            `;
+            chatContainer.appendChild(messageDiv);
+            feather.replace();
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+        function addBotMessage(message) {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'bot-message-container';
+            messageDiv.innerHTML = `
+                <div class="kisan-avatar">
+                    <i data-feather="user-check"></i>
+                </div>
+                <div class="message-bubble bot-message">
+                    <p>${message}</p>
+                </div>
+            `;
+            chatContainer.appendChild(messageDiv);
+            feather.replace();
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            
+            // Speak the response if speech synthesis is available
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(message);
+                utterance.lang = document.getElementById('languageSelect').value;
+                speechSynthesis.speak(utterance);
+            }
+        }
+        
+        function processQuery(query) {
+            // Add typing indicator
+            addTypingIndicator();
+            
+            const language = document.getElementById('languageSelect').value;
+            
+            fetch('/api/voice_query', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: query,
+                    language: language
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                removeTypingIndicator();
+                if (data.status === 'success') {
+                    addBotMessage(data.response);
+                } else {
+                    addBotMessage('Sorry, I encountered an error processing your question. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                removeTypingIndicator();
+                addBotMessage('Sorry, I\'m having trouble connecting. Please check your internet connection and try again.');
+            });
+        }
+        
+        function addTypingIndicator() {
+            const chatContainer = document.getElementById('chatContainer');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'bot-message-container typing-indicator';
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = `
+                <div class="kisan-avatar">
+                    <i data-feather="user-check"></i>
+                </div>
+                <div class="message-bubble bot-message">
+                    <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            `;
+            chatContainer.appendChild(typingDiv);
+            feather.replace();
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+        function removeTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+        
+        function askQuickQuestion(question) {
+            addUserMessage(question);
+            processQuery(question);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Prices - Project Kisan</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container-fluid p-0">
+        <!-- Header -->
+        <header class="kisan-header">
+            <div class="container">
+                <div class="row align-items-center py-3">
+                    <div class="col-2">
+                        <button class="btn-back" onclick="window.location.href='{{ url_for('index') }}'">
+                            <i data-feather="arrow-left"></i>
+                        </button>
+                    </div>
+                    <div class="col-8 text-center">
+                        <h2 class="page-title">Market Prices</h2>
+                    </div>
+                    <div class="col-2 text-end">
+                        <button class="btn-refresh" onclick="refreshPrices()">
+                            <i data-feather="refresh-cw"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container mt-4">
+            <!-- Filters -->
+            <div class="section-card mb-4">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <select class="form-select" id="commoditySelect">
+                            <option value="rice">Rice</option>
+                            <option value="wheat">Wheat</option>
+                            <option value="sugarcane">Sugarcane</option>
+                            <option value="cotton">Cotton</option>
+                            <option value="onion">Onion</option>
+                            <option value="potato">Potato</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <select class="form-select" id="stateSelect">
+                            <option value="all">All States</option>
+                            <option value="karnataka">Karnataka</option>
+                            <option value="maharashtra">Maharashtra</option>
+                            <option value="punjab">Punjab</option>
+                            <option value="tamil_nadu">Tamil Nadu</option>
+                            <option value="uttar_pradesh">Uttar Pradesh</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Price Chart -->
+            <div class="section-card mb-4">
+                <h3 class="section-title">Price Trends</h3>
+                <div class="chart-container">
+                    <canvas id="priceChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+
+            <!-- Current Prices -->
+            <div class="section-card mb-4">
+                <h3 class="section-title">Today's Prices</h3>
+                <div id="pricesList" class="prices-list">
+                    <div class="price-loading">Loading current prices...</div>
+                </div>
+            </div>
+
+            <!-- Price Alerts -->
+            <div class="section-card mb-4">
+                <h3 class="section-title">Price Alerts</h3>
+                <div class="alert-section">
+                    <div class="alert alert-success">
+                        <i data-feather="trending-up"></i>
+                        Rice prices increased by 5% this week. Good time to sell!
+                    </div>
+                    <div class="alert alert-warning">
+                        <i data-feather="trending-down"></i>
+                        Onion prices are expected to drop next week.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Market Insights -->
+            <div class="section-card mb-4">
+                <h3 class="section-title">Market Insights</h3>
+                <div class="insights-grid">
+                    <div class="insight-card">
+                        <div class="insight-icon">
+                            <i data-feather="star"></i>
+                        </div>
+                        <div class="insight-content">
+                            <h5>Best Selling Time</h5>
+                            <p>Morning hours (6-10 AM) typically offer better prices</p>
+                        </div>
+                    </div>
+                    <div class="insight-card">
+                        <div class="insight-icon">
+                            <i data-feather="map-pin"></i>
+                        </div>
+                        <div class="insight-content">
+                            <h5>Nearest Market</h5>
+                            <p>Bangalore APMC - 15km away</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-item" onclick="window.location.href='{{ url_for('index') }}'">
+                <i data-feather="home"></i>
+            </div>
+            <div class="nav-item active">
+                <i data-feather="bar-chart-2"></i>
+            </div>
+            <div class="nav-item" onclick="window.location.href='{{ url_for('voice_query') }}'">
+                <i data-feather="message-circle"></i>
+            </div>
+            <div class="nav-item" onclick="window.location.href='{{ url_for('schemes') }}'">
+                <i data-feather="user"></i>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+        
+        let priceChart;
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePriceChart();
+            loadCurrentPrices();
+            
+            // Add event listeners for filters
+            document.getElementById('commoditySelect').addEventListener('change', function() {
+                loadCurrentPrices();
+                updatePriceChart();
+            });
+            
+            document.getElementById('stateSelect').addEventListener('change', function() {
+                loadCurrentPrices();
+            });
+        });
+        
+        function initializePriceChart() {
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            
+            // Sample data for price trends
+            const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            const data = [2200, 2250, 2180, 2300, 2280, 2350, 2400];
+            
+            priceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Price (₹/quintal)',
+                        data: data,
+                        borderColor: '#2d5530',
+                        backgroundColor: 'rgba(45, 85, 48, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: {
+                                color: 'rgba(0,0,0,0.1)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function loadCurrentPrices() {
+            const commodity = document.getElementById('commoditySelect').value;
+            const state = document.getElementById('stateSelect').value;
+            
+            fetch(`/api/get_market_price?commodity=${commodity}&state=${state}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        displayPrices(data.data);
+                    } else {
+                        document.getElementById('pricesList').innerHTML = 
+                            '<div class="alert alert-danger">Unable to fetch current prices</div>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('pricesList').innerHTML = 
+                        '<div class="alert alert-danger">Error loading prices</div>';
+                });
+        }
+        
+        function displayPrices(data) {
+            const pricesList = document.getElementById('pricesList');
+            
+            if (!data.records || data.records.length === 0) {
+                pricesList.innerHTML = '<div class="alert alert-info">No price data available</div>';
+                return;
+            }
+            
+            let html = '';
+            data.records.forEach(record => {
+                html += `
+                    <div class="price-item">
+                        <div class="price-header">
+                            <h5>${record.commodity}</h5>
+                            <span class="price-badge">₹${record.modal_price}/quintal</span>
+                        </div>
+                        <div class="price-details">
+                            <div class="detail-item">
+                                <span class="label">Market:</span>
+                                <span class="value">${record.market}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="label">Location:</span>
+                                <span class="value">${record.district}, ${record.state}</span>
+                            </div>
+                            <div class="price-range">
+                                <span class="min-price">Min: ₹${record.min_price}</span>
+                                <span class="max-price">Max: ₹${record.max_price}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            pricesList.innerHTML = html;
+        }
+        
+        function updatePriceChart() {
+            // Generate sample trend data based on selected commodity
+            const commodity = document.getElementById('commoditySelect').value;
+            const basePrice = {
+                'rice': 2200,
+                'wheat': 1800,
+                'sugarcane': 280,
+                'cotton': 5500,
+                'onion': 800,
+                'potato': 600
+            }[commodity] || 2200;
+            
+            const data = [];
+            for (let i = 0; i < 7; i++) {
+                const variation = (Math.random() - 0.5) * 200;
+                data.push(Math.round(basePrice + variation));
+            }
+            
+            priceChart.data.datasets[0].data = data;
+            priceChart.update();
+        }
+        
+        function refreshPrices() {
+            const refreshBtn = document.querySelector('.btn-refresh i');
+            refreshBtn.style.animation = 'spin 1s linear';
+            
+            loadCurrentPrices();
+            
+            setTimeout(() => {
+                refreshBtn.style.animation = '';
+            }, 1000);
+        }
+    </script>
+    
+    <style>
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,117 @@
+{
+  "name": "Project Kisan - Farmer's Digital Assistant",
+  "short_name": "Project Kisan",
+  "description": "AI-powered mobile app for farmers with crop diagnosis, market prices, and voice assistance",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#2d5530",
+  "background_color": "#f5f4f0",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["agriculture", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzIiIGhlaWdodD0iNzIiIHZpZXdCb3g9IjAgMCA3MiA3MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjcyIiBoZWlnaHQ9IjcyIiByeD0iMTYiIGZpbGw9IiMyZDU1MzAiLz4KPHN2ZyB4PSIxNiIgeT0iMTYiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxwYXRoIGQ9Im0xMiAzLTEuOTEyIDUuNjEzYTIgMiAwIDAgMS0xLjI5OCAxLjI5OEwyLjUgMTJsNi4xMDMgMS45MTJBMSA4IDAgMCAxIDEwIDEyaDJhMiAyIDAgMCAwIDIgMiAyIDIgMCAwIDEgMiAydi4xNThhMiAyIDAgMCAxLTEuMTU1IDEuODE2bC0xLjkyMy45NjEiLz4KPHN2ZyB4PSIwIiB5PSIxOCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjYiPgo8cGF0aCBkPSJNMiAyMnMzLTEgMTMtMSAxMyAxIDEzIDEiLz4KPC9zdmc+Cjwvc3ZnPgo8L3N2Zz4K",
+      "sizes": "72x72",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMjAiIGZpbGw9IiMyZDU1MzAiLz4KPHN2ZyB4PSIyNCIgeT0iMjQiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxwYXRoIGQ9Im0xMiAzLTEuOTEyIDUuNjEzYTIgMiAwIDAgMS0xLjI5OCAxLjI5OEwyLjUgMTJsNi4xMDMgMS45MTJBMSA4IDAgMCAxIDEwIDEyaDJhMiAyIDAgMCAwIDIgMiAyIDIgMCAwIDEgMiAydi4xNThhMiAyIDAgMCAxLTEuMTU1IDEuODE2bC0xLjkyMy45NjEiLz4KPHN2ZyB4PSIwIiB5PSIxOCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjYiPgo8cGF0aCBkPSJNMiAyMnMzLTEgMTMtMSAxMyAxIDEzIDEiLz4KPC9zdmc+Cjwvc3ZnPgo8L3N2Zz4K",
+      "sizes": "96x96",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgdmlld0JveD0iMCAwIDEyOCAxMjgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiByeD0iMjgiIGZpbGw9IiMyZDU1MzAiLz4KPHN2ZyB4PSIzMiIgeT0iMzIiIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPHBhdGggZD0ibTEyIDMtMS45MTIgNS42MTNBMSA4IDAgMCAxIDguNzAyIDEwTDIuNSAxMmw2LjEwMyAxLjkxMkEyIDIgMCAwIDEgMTAgMTZoMmEyIDIgMCAwIDAgMiAyIDIgMiAwIDAgMSAyIDJ2LjE1OEEyIDIgMCAwIDEgMTQuODQ1IDIyTDEyLjkyMiAyMy4wNjEiLz4KPHN2ZyB4PSIwIiB5PSIxOCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjYiPgo8cGF0aCBkPSJNMiAyMnMzLTEgMTMtMSAxMyAxIDEzIDEiLz4KPC9zdmc+Cjwvc3ZnPgo8L3N2Zz4K",
+      "sizes": "128x128",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iNDAiIGZpbGw9IiMyZDU1MzAiLz4KPHN2ZyB4PSI0OCIgeT0iNDgiIHdpZHRoPSI5NiIgaGVpZ2h0PSI5NiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KPHBhdGggZD0ibTEyIDMtMS45MTIgNS42MTNBMSA4IDAgMCAxIDguNzAyIDEwTDIuNSAxMmw2LjEwMyAxLjkxMkEyIDIgMCAwIDEgMTAgMTZoMmEyIDIgMCAwIDAgMiAyIDIgMiAwIDAgMSAyIDJ2LjE1OEEyIDIgMCAwIDEgMTQuODQ1IDIyTDEyLjkyMiAyMy4wNjEiLz4KPHN2ZyB4PSIwIiB5PSIxOCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjYiPgo8cGF0aCBkPSJNMiAyMnMzLTEgMTMtMSAxMyAxIDEzIDEiLz4KPC9zdmc+Cjwvc3ZnPgo8L3N2Zz4K",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTA0IiBmaWxsPSIjMmQ1NTMwIi8+CjxzdmcgeD0iMTI4IiB5PSIxMjgiIHdpZHRoPSIyNTYiIGhlaWdodD0iMjU2IiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgo8cGF0aCBkPSJtMTIgMy0xLjkxMiA1LjYxM0EyIDIgMCAwIDEgOC43MDIgMTBMMi41IDEybDYuMTAzIDEuOTEyQTIgMiAwIDAgMSAxMCAxNmgyYTIgMiAwIDAgMCAyIDIgMiAyIDAgMCAxIDIgMnYuMTU4QTIgMiAwIDAgMSAxNC44NDUgMjJMMTIuOTIyIDIzLjA2MSIvPgo8c3ZnIHg9IjAiIHk9IjE4IiB3aWR0aD0iMjQiIGhlaWdodD0iNiI+CjxwYXRoIGQ9Ik0yIDIyUzUgMjEgMTUgMjEgMjggMjIgMjggMjIiLz4KPC9zdmc+Cjwvc3ZnPgo8L3N2Zz4K",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzc1IiBoZWlnaHQ9IjgxMiIgdmlld0JveD0iMCAwIDM3NSA4MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzNzUiIGhlaWdodD0iODEyIiBmaWxsPSIjZjVmNGYwIi8+CjxyZWN0IHdpZHRoPSIzNzUiIGhlaWdodD0iMTIwIiBmaWxsPSIjMmQ1NTMwIi8+Cjx0ZXh0IHg9IjE4NyIgeT0iNzAiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjI0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiI+UHJvamVjdCBLaXNhbjwvdGV4dD4KPHJlY3QgeD0iMjAiIHk9IjE2MCIgd2lkdGg9IjE1NSIgaGVpZ2h0PSIxMjAiIHJ4PSIxNiIgZmlsbD0id2hpdGUiIHN0cm9rZT0iI2UxZThlZCIvPgo8dGV4dCB4PSI5NyIgeT0iMjI1IiBmaWxsPSIjMmQ1NTMwIiBmb250LXNpemU9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiI+Q2hlY2sgQ3JvcDwvdGV4dD4KPHJlY3QgeD0iMjAwIiB5PSIxNjAiIHdpZHRoPSIxNTUiIGhlaWdodD0iMTIwIiByeD0iMTYiIGZpbGw9IndoaXRlIiBzdHJva2U9IiNlMWU4ZWQiLz4KPHRleHQgeD0iMjc3IiB5PSIyMjUiIGZpbGw9IiMyZDU1MzAiIGZvbnQtc2l6ZT0iMTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIj5NYXJrZXQgUHJpY2VzPC90ZXh0Pgo8cmVjdCB4PSIyMCIgeT0iMzAwIiB3aWR0aD0iMTU1IiBoZWlnaHQ9IjEyMCIgcng9IjE2IiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSIjZTFlOGVkIi8+Cjx0ZXh0IHg9Ijk3IiB5PSIzNjUiIGZpbGw9IiMyZDU1MzAiIGZvbnQtc2l6ZT0iMTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIj5Bc2sgS2lzYW48L3RleHQ+CjxyZWN0IHg9IjIwMCIgeT0iMzAwIiB3aWR0aD0iMTU1IiBoZWlnaHQ9IjEyMCIgcng9IjE2IiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSIjZTFlOGVkIi8+Cjx0ZXh0IHg9IjI3NyIgeT0iMzY1IiBmaWxsPSIjMmQ1NTMwIiBmb250LXNpemU9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiI+U2NoZW1lczwvdGV4dD4KPC9zdmc+",
+      "sizes": "375x812",
+      "type": "image/svg+xml",
+      "form_factor": "narrow",
+      "label": "Project Kisan home screen showing main features"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Crop Diagnosis",
+      "short_name": "Diagnose",
+      "description": "Upload crop image for disease diagnosis",
+      "url": "/crop-diagnosis",
+      "icons": [
+        {
+          "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMjAiIGZpbGw9IiMyZDU1MzAiLz4KPHN2ZyB4PSIyNCIgeT0iMjQiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxwYXRoIGQ9Im0xMiAzLTEuOTEyIDUuNjEzYTIgMiAwIDAgMS0xLjI5OCAxLjI5OEwyLjUgMTJsNi4xMDMgMS45MTJBMSA4IDAgMCAxIDEwIDEyaDJhMiAyIDAgMCAwIDIgMiAyIDIgMCAwIDEgMiAydi4xNThhMiAyIDAgMCAxLTEuMTU1IDEuODE2bC0xLjkyMy45NjEiLz4KPC9zdmc+Cjwvc3ZnPgo8L3N2Zz4K",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Market Prices",
+      "short_name": "Prices",
+      "description": "Check live market prices and trends",
+      "url": "/market-prices",
+      "icons": [
+        {
+          "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMjAiIGZpbGw9IiMyZDU1MzAiLz4KPHN2ZyB4PSIyNCIgeT0iMjQiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxwYXRoIGQ9Im0zIDMgMy4wNjQgNkw0IDEybDQuODctMSA0Ljg3IDFMMTcgM3YxOGwtNC44Ny0xTDcuMTMgMjEgMyAyMVYzeiIvPgo8cGF0aCBkPSJtOSA5IDIgMiA0LTQiLz4KPC9zdmc+Cjwvc3ZnPgo8L3N2Zz4K",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Voice Assistant",
+      "short_name": "Ask Kisan",
+      "description": "Voice-powered farming assistant",
+      "url": "/voice-query",
+      "icons": [
+        {
+          "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMjAiIGZpbGw9IiMyZDU1MzAiLz4KPHN2ZyB4PSIyNCIgeT0iMjQiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxwYXRoIGQ9Im0xMiA4LTkuMDQgOS4wNmEyLjE4IDIuMTggMCAwIDAtLjk2IDEuODRjMCAyLjc1IDIuMjUgNSA1IDVoOS04LTlhNSA1IDAgMCAwIDUgNWMwIDEuMDgtLjE1IDIuMDktLjQzIDNsNC4zNS00LjM1QTIuMTggMi4xOCAwIDAgMCAxNiA5di0xYTQgNCAwIDAgMS00LTQiLz4KPGNpcmNsZSBjeD0iMTIiIGN5PSI4IiByPSI0Ii8+CjwvZXZnPgo8L3N2Zz4K",
+          "sizes": "96x96",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "file_handlers": [
+    {
+      "action": "/crop-diagnosis",
+      "accept": {
+        "image/*": [".jpg", ".jpeg", ".png", ".gif", ".webp"]
+      }
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+kisan",
+      "url": "/voice-query?query=%s"
+    }
+  ]
+}
