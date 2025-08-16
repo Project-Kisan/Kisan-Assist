@@ -433,16 +433,15 @@ function compressImage(file, maxWidth = 800, quality = 0.8) {
     });
 }
 
-// Error handling
+// Error handling - only for critical errors
 window.addEventListener('error', function(e) {
     console.error('Global error:', e.error);
     
-    // Show user-friendly error message
+    // Only show notification for network-related errors
     if (!isOnline) {
         showNotification('Please check your internet connection', 'warning');
-    } else {
-        showNotification('Something went wrong. Please try again.', 'danger');
     }
+    // Removed generic "something went wrong" message to prevent false alarms
 });
 
 // Prevent zoom on double-tap (iOS Safari)
