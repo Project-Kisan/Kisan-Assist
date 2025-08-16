@@ -156,14 +156,21 @@
             loadCurrentPrices();
             
             // Add event listeners for filters
-            document.getElementById('commoditySelect').addEventListener('change', function() {
-                loadCurrentPrices();
-                updatePriceChart();
-            });
+            const commoditySelect = document.getElementById('commoditySelect');
+            const stateSelect = document.getElementById('stateSelect');
             
-            document.getElementById('stateSelect').addEventListener('change', function() {
-                loadCurrentPrices();
-            });
+            if (commoditySelect) {
+                commoditySelect.addEventListener('change', function() {
+                    loadCurrentPrices();
+                    updatePriceChart();
+                });
+            }
+            
+            if (stateSelect) {
+                stateSelect.addEventListener('change', function() {
+                    loadCurrentPrices();
+                });
+            }
         });
         
         function initializePriceChart() {
@@ -213,22 +220,40 @@
         }
         
         function loadCurrentPrices() {
-            const commodity = document.getElementById('commoditySelect').value;
-            const state = document.getElementById('stateSelect').value;
+            const commoditySelect = document.getElementById('commoditySelect');
+            const stateSelect = document.getElementById('stateSelect');
+            const pricesList = document.getElementById('pricesList');
+            
+            if (!commoditySelect || !stateSelect || !pricesList) {
+                console.error('Required elements not found');
+                return;
+            }
+            
+            const commodity = commoditySelect.value;
+            const state = stateSelect.value;
+            
+            // Show loading state
+            pricesList.innerHTML = '<div class="price-loading">Loading current prices...</div>';
             
             fetch(`/api/get_market_price?commodity=${commodity}&state=${state}`)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(data => {
+                    console.log('Market price data received:', data);
                     if (data.status === 'success') {
                         displayPrices(data.data);
                     } else {
-                        document.getElementById('pricesList').innerHTML = 
+                        pricesList.innerHTML = 
                             '<div class="alert alert-danger">Unable to fetch current prices</div>';
                     }
                 })
                 .catch(error => {
-                    console.error('Error:', error);
-                    document.getElementById('pricesList').innerHTML = 
+                    console.error('Error loading prices:', error);
+                    pricesList.innerHTML = 
                         '<div class="alert alert-danger">Error loading prices</div>';
                 });
         }
@@ -271,8 +296,13 @@
         }
         
         function updatePriceChart() {
+            const commoditySelect = document.getElementById('commoditySelect');
+            if (!commoditySelect || !priceChart) {
+                return;
+            }
+            
             // Generate sample trend data based on selected commodity
-            const commodity = document.getElementById('commoditySelect').value;
+            const commodity = commoditySelect.value;
             const basePrice = {
                 'rice': 2200,
                 'wheat': 1800,
@@ -294,13 +324,15 @@
         
         function refreshPrices() {
             const refreshBtn = document.querySelector('.btn-refresh i');
-            refreshBtn.style.animation = 'spin 1s linear';
+            if (refreshBtn) {
+                refreshBtn.style.animation = 'spin 1s linear';
+                
+                setTimeout(() => {
+                    refreshBtn.style.animation = '';
+                }, 1000);
+            }
             
             loadCurrentPrices();
-            
-            setTimeout(() => {
-                refreshBtn.style.animation = '';
-            }, 1000);
         }
     </script>
     
