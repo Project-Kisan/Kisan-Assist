@@ -121,7 +121,7 @@ def get_market_price():
         state = request.args.get('state', 'all')
         
         # Try to fetch from Mandi API
-        api_key = os.environ.get('MANDI_API_KEY', '579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b')
+        api_key = os.environ.get('MANDI_API_KEY', 'demo_key')
         
         # Placeholder URL - replace with actual Mandi API endpoint
         mandi_api_url = f"https://api.data.gov.in/resource/market-price"
@@ -186,7 +186,7 @@ def get_weather():
         city = request.args.get('city', 'Bangalore')
         lat = request.args.get('lat')
         lon = request.args.get('lon')
-        api_key = os.environ.get('OPENWEATHER_API_KEY', '20e391558fc8b590fa358abb523beec5')
+        api_key = os.environ.get('OPENWEATHER_API_KEY', 'demo_key')
         
         try:
             url = f"https://api.openweathermap.org/data/2.5/weather"
