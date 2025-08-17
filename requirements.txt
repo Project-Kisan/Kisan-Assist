@@ -1,21 +1,9 @@
-#Packages
-pip install flask
-pip install flask-sqlalchemy
-pip install gunicorn
-pip install werkzeug
-pip install requests
-pip install pillow
-pip install psycopg2-binary
-pip install jinja2
-pip install email-validator
-
-#virtual environment
-python -m venv venv
-# On Windows:
-venv\Scripts\activate
-# On Mac/Linux:
-source venv/bin/activate
-
-#Dependencies
-pip install flask flask-sqlalchemy gunicorn werkzeug requests pillow psycopg2-binary jinja2
+flask
+flask-sqlalchemy
+gunicorn
+werkzeug
+requests
+pillow
+psycopg2-binary
+jinja2
 email-validator
